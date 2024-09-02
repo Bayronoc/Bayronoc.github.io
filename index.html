@@ -4,12 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bayron Ocampo Vargas</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
     <h1>Parcial 1 - Bayron Ocampo Vargas 2116612</h1>
     <img src="./images/ecuacion.png" alt="">
-    
-    <Script></Script>
-    
+    <section>
+        <button class="botones" onclick="procesarEcuacion()">Procesar</button>
+    </section>
+    <br>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Tipo de Error</th>
+                <th>Totales</th>
+                <th>Porcentaje</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Total de errores de arcoseno</td>
+                <td id="errores-arcsin"></td>
+                <td id="porcentaje-arcsin"></td>
+            </tr>
+            <tr>
+                <td>Total de errores de arcocoseno</td>
+                <td id="errores-arccos"></td>
+                <td id="porcentaje-arccos"></td>
+            </tr>
+            <tr>
+                <td>Total de errores de raíz cuadrada</td>
+                <td id="errores-sqrt"></td>
+                <td id="porcentaje-sqrt"></td>
+            </tr>
+            <tr>
+                <td>Total de errores de división</td>
+                <td id="errores-division"></td>
+                <td id="porcentaje-division"></td>
+            </tr>
+            <tr>
+                <td>Total de errores de logaritmo natural</td>
+                <td id="errores-ln"></td>
+                <td id="porcentaje-ln"></td>
+            </tr>
+        </tbody>
+    </table>
+    <div id="piechart" style="width: 900px; height: 500px;"></div>
 </body>
 </html>
