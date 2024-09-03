@@ -1,7 +1,3 @@
-// Cargar Google Charts y el paquete de gráficos de pastel
-google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(inicializar);
-
 function inicializar() {
     document.querySelector('.botones').addEventListener('click', procesarEcuacion);
 }
@@ -69,27 +65,51 @@ function procesarEcuacion() {
     document.getElementById('errores-ln').textContent = errores_ln;
     document.getElementById('porcentaje-ln').textContent = ((errores_ln / ciclos) * 100).toFixed(2) + "%";
 
-    // Generar gráfico de pastel
+    // Generar gráfico de pastel usando Chart.js
     drawChart(errores_arcsin, errores_arccos, errores_sqrt, errores_division, errores_ln);
 }
 
 // Función para dibujar el gráfico de pastel
 function drawChart(errores_arcsin, errores_arccos, errores_sqrt, errores_division, errores_ln) {
-    var data = google.visualization.arrayToDataTable([
-        ['Tipo de Error', 'Totales'],
-        ['Arcsin', errores_arcsin],
-        ['Arccos', errores_arccos],
-        ['Raíz Cuadrada', errores_sqrt],
-        ['División', errores_division],
-        ['Logaritmo Natural', errores_ln]
-    ]);
-
-    var options = {
-        title: 'Distribución de Errores',
-        is3D: true,
-    };
-
-    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-    chart.draw(data, options);
+    var ctx = document.getElementById('piechart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Arcsin', 'Arccos', 'Raíz Cuadrada', 'División', 'Logaritmo Natural'],
+            datasets: [{
+                label: 'Distribución de Errores',
+                data: [errores_arcsin, errores_arccos, errores_sqrt, errores_division, errores_ln],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Distribución de Errores'
+                }
+            }
+        }
+    });
 }
+
+// Inicializar el proceso al cargar la página
+inicializar();
