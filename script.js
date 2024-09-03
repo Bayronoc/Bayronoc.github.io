@@ -1,3 +1,11 @@
+// Cargar Google Charts y el paquete de gráficos de pastel
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(inicializar);
+
+function inicializar() {
+    document.querySelector('.botones').addEventListener('click', procesarEcuacion);
+}
+
 function procesarEcuacion() {
     const ciclos = 1000;
     let errores_arcsin = 0;
@@ -21,8 +29,8 @@ function procesarEcuacion() {
             let term2_arcsin = Math.asin(Math.sqrt(3)/2 + x4);
             let term3_arccos = Math.acos(1/Math.sqrt(2));
 
-            let ln2 = Math.log(2);
-            let ln3 = Math.log(3);
+            let ln2 = Math.log(2 + x1); // Logaritmo de una variable modificada
+            let ln3 = Math.log(3 + x2); // Logaritmo de una variable modificada
 
             // Verificación de errores
             if (isNaN(term1_sqrt) || term1_sqrt < 0) errores_sqrt++;
@@ -60,6 +68,28 @@ function procesarEcuacion() {
 
     document.getElementById('errores-ln').textContent = errores_ln;
     document.getElementById('porcentaje-ln').textContent = ((errores_ln / ciclos) * 100).toFixed(2) + "%";
+
+    // Generar gráfico de pastel
+    drawChart(errores_arcsin, errores_arccos, errores_sqrt, errores_division, errores_ln);
 }
 
-document.querySelector('.botones').addEventListener('click', procesarEcuacion);
+// Función para dibujar el gráfico de pastel
+function drawChart(errores_arcsin, errores_arccos, errores_sqrt, errores_division, errores_ln) {
+    var data = google.visualization.arrayToDataTable([
+        ['Tipo de Error', 'Totales'],
+        ['Arcsin', errores_arcsin],
+        ['Arccos', errores_arccos],
+        ['Raíz Cuadrada', errores_sqrt],
+        ['División', errores_division],
+        ['Logaritmo Natural', errores_ln]
+    ]);
+
+    var options = {
+        title: 'Distribución de Errores',
+        is3D: true,
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+    chart.draw(data, options);
+}
